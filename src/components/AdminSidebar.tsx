@@ -24,7 +24,7 @@ export default function AdminSidebar() {
 
     // set component's state
     const [currentItem, setCurrentItem] = useState<String>('Dashboard');
-    const [features, setFeatures] = useState<Feature[]>(initialFeature);
+    const [features] = useState<Feature[]>(initialFeature);
     const [isOpen, setIsOpen] = useState(false);
 
     // handle hover sidebar
