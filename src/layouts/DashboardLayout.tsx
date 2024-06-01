@@ -1,3 +1,5 @@
+import { getCurrentUser } from 'aws-amplify/auth';
+
 import { Bar, Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -10,9 +12,23 @@ import {
     PointElement,
     LineElement,
 } from 'chart.js';
+import { useEffect } from 'react';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement);
 
 const DashboardLayout = () => {
+
+    const getCurretnUser = async() => {
+        const { username, userId, signInDetails } = await getCurrentUser();
+        console.log("username", username);
+        console.log("user id", userId);
+        console.log("sign-in details", signInDetails);
+    }
+
+    
+    useEffect(() => {
+        getCurretnUser()
+    }, [])
+
     const barData = {
         labels: ['01', '03', '05', '07', '09', '11', '13', '15', '17', '19', '21', '23', '25', '27', '29', '31'],
         datasets: [

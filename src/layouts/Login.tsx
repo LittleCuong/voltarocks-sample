@@ -1,15 +1,13 @@
 import { signIn } from 'aws-amplify/auth'
-import { getCurrentUser } from 'aws-amplify/auth';
 import { Fragment } from 'react/jsx-runtime';
-import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
-import { defaultStorage } from 'aws-amplify/utils';
+
 // Logo & image
 import voltaImage from '../assets/volta-img.png';
 import logoWithText from '../assets/logo-with-text.png';
 import councilAvatar from '../assets/council-avatar.png';
 
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 interface form {
     email: string,
@@ -20,32 +18,21 @@ export default function Login() {
 
     const [formInput, setFormInput] = useState<form>({email: '', password: ''})
 
-    useEffect(() => {
-        getCurretnUser()
-    }, [])
-
     const handleOnChangeInput = (e: any) => {
         e.preventDefault()
         const name = e.target.name
         const value = e.target.value 
         setFormInput({...formInput, [name] : value})
     }
-
-    const getCurretnUser = async() => {
-        const { username, userId, signInDetails } = await getCurrentUser();
-        console.log("username", username);
-        console.log("user id", userId);
-        console.log("sign-in details", signInDetails);
-    }
-    
   
     const handleSignIn = async() => {
+        const nav = useNavigate()
         try {
             await signIn({
                 username: formInput.email,
                 password: formInput.password,
             })
-            cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);;
+            nav('/dashboard')
         } catch (error) {
             console.error();
         }
