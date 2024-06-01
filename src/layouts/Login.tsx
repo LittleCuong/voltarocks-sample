@@ -1,7 +1,8 @@
 import { signIn } from 'aws-amplify/auth'
 import { getCurrentUser } from 'aws-amplify/auth';
 import { Fragment } from 'react/jsx-runtime';
-
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+import { defaultStorage } from 'aws-amplify/utils';
 // Logo & image
 import voltaImage from '../assets/volta-img.png';
 import logoWithText from '../assets/logo-with-text.png';
@@ -32,10 +33,11 @@ export default function Login() {
                 username: formInput.email,
                 password: formInput.password,
             })
-            const { username, userId, signInDetails } = await getCurrentUser();
-            console.log("username", username);
-            console.log("user id", userId);
-            console.log("sign-in details", signInDetails);
+            cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
+            // const { username, userId, signInDetails } = await getCurrentUser();
+            // console.log("username", username);
+            // console.log("user id", userId);
+            // console.log("sign-in details", signInDetails);
         } catch (error) {
             console.error();
         }
