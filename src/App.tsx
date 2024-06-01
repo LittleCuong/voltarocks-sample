@@ -9,6 +9,7 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
+                <h3>Feature branch</h3>
                 <Route path="/login" element={<Login />}></Route>
                 <Route path="/sign-up" element={<SignUp />}></Route>
                 <Route path="/dashboard" element={<AdminDashboard />}></Route>
