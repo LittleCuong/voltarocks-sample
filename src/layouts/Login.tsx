@@ -1,3 +1,5 @@
+import { signIn } from 'aws-amplify/auth'
+import { getCurrentUser } from 'aws-amplify/auth';
 import { Fragment } from 'react/jsx-runtime';
 
 // Logo & image
@@ -6,8 +8,40 @@ import logoWithText from '../assets/logo-with-text.png';
 import councilAvatar from '../assets/council-avatar.png';
 
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+
+interface form {
+    email: string,
+    password: string,
+}
 
 export default function Login() {
+
+    const [formInput, setFormInput] = useState<form>({email: '', password: ''})
+
+    const handleOnChangeInput = (e: any) => {
+        const name = e.target.name
+        const value = e.target.value 
+        setFormInput({...formInput, [name] : value})
+    }
+
+    const handleSignIn = async() => {
+        try {
+            await signIn({
+                username: formInput.email,
+                password: formInput.password,
+            })
+            const { username, userId, signInDetails } = await getCurrentUser();
+            console.log("username", username);
+            console.log("user id", userId);
+            console.log("sign-in details", signInDetails);
+        } catch (error) {
+            console.error();
+        }
+    }
+
+
+
     return (
         <Fragment>
             <div className="w-full h-screen flex overflow-hidden">
@@ -56,6 +90,7 @@ export default function Login() {
                                         Email
                                     </label>
                                     <input
+                                        onChange={(e) => handleOnChangeInput(e)}
                                         className="w-full md:p-[8px] lg:p-[10px] xl:p-[12px] md:text-[10px] xl:text-[14px] border border-background-1 bg-transparent rounded outline-none"
                                         name="email"
                                         type="email"
@@ -67,6 +102,7 @@ export default function Login() {
                                         Password
                                     </label>
                                     <input
+                                        onChange={(e) => handleOnChangeInput(e)}
                                         className="w-full md:p-[8px] lg:p-[10px] xl:p-[12px] md:text-[10px] xl:text-[14px] border border-background-1 bg-transparent rounded outline-none"
                                         name="password"
                                         type="password"
@@ -91,7 +127,7 @@ export default function Login() {
                                     </Link>
                                 </div>
                             </div>
-                            <button className="w-3/6 md:h-[28px] lg:h-[38px] xl:h-[48px] bg-[#269F77] md:py-2 xl:py-3 md:px-[38px] lg:px-[50px] xl:px-[60x] rounded-[32px] cursor-pointer">
+                            <button onClick={handleSignIn} className="w-3/6 md:h-[28px] lg:h-[38px] xl:h-[48px] bg-[#269F77] md:py-2 xl:py-3 md:px-[38px] lg:px-[50px] xl:px-[60x] rounded-[32px] cursor-pointer">
                                 <span className="block h-full font-inter md:text-[10px] xl:text-sm md:leading-[14px] lg:leading-[14px] xl:leading-[24px] text-center text-white">
                                     Sign In
                                 </span>
