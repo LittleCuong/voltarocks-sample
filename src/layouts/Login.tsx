@@ -1,5 +1,5 @@
 import { signIn } from 'aws-amplify/auth'
-// import { getCurrentUser } from 'aws-amplify/auth';
+import { getCurrentUser } from 'aws-amplify/auth';
 import { Fragment } from 'react/jsx-runtime';
 import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 import { defaultStorage } from 'aws-amplify/utils';
@@ -9,7 +9,7 @@ import logoWithText from '../assets/logo-with-text.png';
 import councilAvatar from '../assets/council-avatar.png';
 
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface form {
     email: string,
@@ -20,6 +20,10 @@ export default function Login() {
 
     const [formInput, setFormInput] = useState<form>({email: '', password: ''})
 
+    useEffect(() => {
+        getCurretnUser()
+    }, [])
+
     const handleOnChangeInput = (e: any) => {
         e.preventDefault()
         const name = e.target.name
@@ -27,17 +31,21 @@ export default function Login() {
         setFormInput({...formInput, [name] : value})
     }
 
+    const getCurretnUser = async() => {
+        const { username, userId, signInDetails } = await getCurrentUser();
+        console.log("username", username);
+        console.log("user id", userId);
+        console.log("sign-in details", signInDetails);
+    }
+    
+  
     const handleSignIn = async() => {
         try {
             await signIn({
                 username: formInput.email,
                 password: formInput.password,
             })
-            cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
-            // const { username, userId, signInDetails } = await getCurrentUser();
-            // console.log("username", username);
-            // console.log("user id", userId);
-            // console.log("sign-in details", signInDetails);
+            cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);;
         } catch (error) {
             console.error();
         }
