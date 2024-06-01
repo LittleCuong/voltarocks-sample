@@ -1,5 +1,5 @@
 import { signIn } from 'aws-amplify/auth'
-import { getCurrentUser } from 'aws-amplify/auth';
+// import { getCurrentUser } from 'aws-amplify/auth';
 import { Fragment } from 'react/jsx-runtime';
 import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
 import { defaultStorage } from 'aws-amplify/utils';
