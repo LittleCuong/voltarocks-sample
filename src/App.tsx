@@ -7,15 +7,14 @@ import Login from './layouts/Login';
 
 function App() {
     return (
-        <Login />
-        // <BrowserRouter>
-        //     <Routes>
-        //         <h3>Feature branch</h3>
-        //         <Route path="/" element={<Login />}></Route>
-        //         <Route path="/sign-up" element={<SignUp />}></Route>
-        //         <Route path="/dashboard" element={<AdminDashboard />}></Route>
-        //     </Routes>
-        // </BrowserRouter>
+        <BrowserRouter>
+            <Routes>
+                <h3>Main branch</h3>
+                <Route path="/" element={<Login />}></Route>
+                <Route path="/sign-up" element={<SignUp />}></Route>
+                <Route path="/dashboard" element={<AdminDashboard />}></Route>
+            </Routes>
+        </BrowserRouter>
     );
 }
 
