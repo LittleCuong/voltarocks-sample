@@ -20,6 +20,7 @@ export default function Login() {
     const [formInput, setFormInput] = useState<form>({email: '', password: ''})
 
     const handleOnChangeInput = (e: any) => {
+        e.preventDefault()
         const name = e.target.name
         const value = e.target.value 
         setFormInput({...formInput, [name] : value})
